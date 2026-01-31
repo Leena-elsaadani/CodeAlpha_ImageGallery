@@ -6,9 +6,8 @@ const images = [
   { src: "images/animal2.jpg", title: "Zebra", category: "animals" },
   { src: "images/mobile.jpg", title: "Mobile Phones", category: "technology" },
   { src: "images/fam.jpg", title: "Family", category: "family" },
-  { src: "images/effiel.jpg", title: "Effiel Tower", category: "architecture" },
-  { src: "images/ShihTzu.jpeg", title: "Shih Tzu Dog", category: "animals" },
-  
+  { src: "images/effiel.jpg", title: "Eiffel Tower", category: "architecture" },
+  { src: "images/ShihTzu.jpeg", title: "Shih Tzu Dog", category: "animals" }
 ];
 
 const gallery = document.getElementById("gallery");
@@ -16,7 +15,6 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxTitle = document.getElementById("lightboxTitle");
 const lightboxCategory = document.getElementById("lightboxCategory");
-const counter = document.getElementById("imageCounter");
 
 let filteredImages = [...images];
 let currentIndex = 0;
@@ -30,11 +28,9 @@ function renderGallery() {
     item.innerHTML = `
       <img src="${img.src}" />
       <div class="gallery-item-overlay">
-       <div class="gallery-item-title">${img.title}</div>
-       <span class="category-badge">${img.category.toUpperCase()}</span>
+        <div class="gallery-item-title">${img.title}</div>
+        <span class="category-badge">${img.category.toUpperCase()}</span>
       </div>
-
-
     `;
     item.onclick = () => openLightbox(index);
     gallery.appendChild(item);
@@ -47,17 +43,15 @@ function openLightbox(index) {
   lightbox.classList.add("active");
 }
 
-function closeLightbox() {
-  lightbox.classList.remove("active");
-}
-
 function updateLightbox() {
   const img = filteredImages[currentIndex];
   lightboxImage.src = img.src;
   lightboxTitle.textContent = img.title;
   lightboxCategory.textContent = img.category.toUpperCase();
-  counter.textContent = `${currentIndex + 1} / ${filteredImages.length}`;
 }
+
+document.getElementById("closeLightbox").onclick = () =>
+  lightbox.classList.remove("active");
 
 document.getElementById("nextImage").onclick = () => {
   currentIndex = (currentIndex + 1) % filteredImages.length;
@@ -69,12 +63,11 @@ document.getElementById("prevImage").onclick = () => {
   updateLightbox();
 };
 
-document.getElementById("closeLightbox").onclick = closeLightbox;
-
 /* Filters */
 document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
     const filter = btn.dataset.filter;
