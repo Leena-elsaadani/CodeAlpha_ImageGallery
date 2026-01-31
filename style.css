@@ -1,3 +1,4 @@
+/* ================= Global Styles ================= */
 * {
   margin: 0;
   padding: 0;
@@ -5,32 +6,30 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ea66d0, #4b9ba2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   padding: 20px;
+  background: linear-gradient(135deg, #1a1a2e, #162447);
+  color: white;
 }
 
-.container {
-  max-width: 1400px;
-  margin: auto;
-}
-
+/* ================= Header ================= */
 header {
   text-align: center;
-  color: rgb(255, 255, 255);
   margin-bottom: 40px;
 }
 
 h1 {
   font-size: 3rem;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
 }
 
 .subtitle {
-  opacity: 0.9;
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
 }
 
-/* Filters */
+/* ================= Filters ================= */
 .filter-container {
   display: flex;
   justify-content: center;
@@ -40,47 +39,71 @@ h1 {
 }
 
 .filter-btn {
-  padding: 12px 30px;
-  border-radius: 30px;
-  border: 2px solid rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.2);
+  padding: 12px 28px;
+  border-radius: 25px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1);
   color: white;
   cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
   transition: 0.3s;
+  backdrop-filter: blur(10px);
 }
 
 .filter-btn.active,
 .filter-btn:hover {
-  background: white;
-  color: #667eea;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  color: #fff;
+  border-color: #00f2fe;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,255,255,0.3);
 }
 
-/* Gallery */
+/* ================= Gallery ================= */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 25px;
 }
 
 .gallery-item {
   position: relative;
-  border-radius: 15px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  aspect-ratio: 1 / 1;
 
-  /* NEW – glass effect */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255,255,255,0.25);
+  /* Glassmorphism card */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Floating tilt + glow */
+.gallery-item:hover {
+  transform: perspective(800px) rotateX(3deg) rotateY(-3deg) translateY(-6px);
+  box-shadow: 0 25px 60px rgba(0,255,255,0.3);
+}
+
+/* Gradient border hover effect */
 .gallery-item::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 2px;
   background: linear-gradient(135deg, #00f2fe, #4facfe, #f093fb);
   -webkit-mask:
@@ -89,7 +112,7 @@ h1 {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
@@ -97,38 +120,45 @@ h1 {
   opacity: 1;
 }
 
-
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-item:hover {
-  transform: perspective(800px) rotateX(4deg) rotateY(-4deg) translateY(-6px);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
-}
-
-
+/* Overlay */
 .gallery-item-overlay {
   position: absolute;
   bottom: 0;
   width: 100%;
   padding: 20px;
   background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  color: white;
   transform: translateY(100%);
-  transition: 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .gallery-item:hover .gallery-item-overlay {
   transform: translateY(0);
 }
 
+.gallery-item-overlay h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
 
+/* Animated category badge */
+.category-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(0,255,255,0.85);
+  color: #162447;
+  font-size: 0.75rem;
+  font-weight: bold;
+  animation: float 3s ease-in-out infinite;
+}
 
-/* Lightbox */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ================= Lightbox ================= */
 .lightbox {
   display: none;
   position: fixed;
@@ -140,12 +170,15 @@ h1 {
   z-index: 1000;
 }
 
-
 .lightbox.active {
   display: flex;
 }
 
 .lightbox-image {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0,255,255,0.4);
   animation: cinematicZoom 0.6s ease;
 }
 
@@ -154,54 +187,45 @@ h1 {
   to { transform: scale(1); opacity: 1; }
 }
 
-
-.lightbox-close {
+.lightbox-info {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 2rem;
-  background: none;
-  color: white;
-  border: none;
-  cursor: pointer;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
 
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  font-size: 2rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
+.lightbox-title {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.lightbox-prev { left: 30px; }
-.lightbox-next { right: 30px; }
+.lightbox-category {
+  font-size: 1rem;
+  opacity: 0.8;
+}
 
-.hidden {
-  display: none;
+/* Navigation */
+.lightbox-nav, .lightbox-close {
+  background: rgba(0,255,255,0.15);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.lightbox-nav:hover, .lightbox-close:hover {
+  background: rgba(0,255,255,0.25);
+  transform: scale(1.1);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  h1 { font-size: 2rem; }
   .gallery { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  h1 { font-size: 2rem; }
 }
 
-.category-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.9);
-  color: #333;
-  font-size: 0.75rem;
-  font-weight: bold;
-  animation: float 3s ease-in-out infinite;
+@media (max-width: 480px) {
+  .gallery { grid-template-columns: 1fr; }
+  h1 { font-size: 1.5rem; }
 }
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
