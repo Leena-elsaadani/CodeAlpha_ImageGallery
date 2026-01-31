@@ -30,9 +30,10 @@ function renderGallery() {
     item.innerHTML = `
       <img src="${img.src}" />
       <div class="gallery-item-overlay">
-        <h3>${img.title}</h3>
-        <p>${img.category.toUpperCase()}</p>
+       <h3>${img.title}</h3>
+       <span class="category-badge">${img.category.toUpperCase()}</span>
       </div>
+
     `;
     item.onclick = () => openLightbox(index);
     gallery.appendChild(item);
